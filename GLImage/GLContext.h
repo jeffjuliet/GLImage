@@ -10,7 +10,7 @@
 
 @interface GLContext : NSObject
 
-+ (instancetype)sharedOpenGLContext;
++ (instancetype)sharedGLContext;
 - (void)useGLContext;
 - (EAGLContext*)context;
 - (CVOpenGLESTextureCacheRef)coreVideoTextureCache;
