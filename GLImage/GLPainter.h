@@ -21,6 +21,6 @@ extern const GLchar* fragmentStr2;
 @property (nonatomic,assign) GLuint inputTexture;
 
 - (instancetype)initWithVertexShader:(NSString*)vShader fragmentShader:(NSString*)fShader;
-- (void)process;
+- (void)paint;
 
 @end

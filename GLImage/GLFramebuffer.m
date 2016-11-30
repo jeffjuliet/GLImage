@@ -35,6 +35,7 @@
 - (void)generateFramebuffer;
 {
     glGenFramebuffers(1, &uFramebuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, uFramebuffer);
     
     CFDictionaryRef empty; // empty value for attr value.
     CFMutableDictionaryRef attrs;

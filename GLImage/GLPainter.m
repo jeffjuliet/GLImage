@@ -169,8 +169,9 @@ gl_FragColor.rgb = texture2D(inputImageTexture, textureCoordinate).rrr;\
     if( self )
     {
         _program = [[GLProgram alloc] initWithVertexString:vShader fragmentString:fShader];
-        [_program link];
+        BOOL linkret = [_program link];
         
+        NSAssert(linkret, @"glprogram link fail");
         positionSlot = [_program getAttributeLocation:@"Position"];
         colorSlot = [_program getAttributeLocation:@"SourceColor"];
         textureCoordIn = [_program getAttributeLocation:@"textureCoordIn"];
@@ -194,7 +195,7 @@ gl_FragColor.rgb = texture2D(inputImageTexture, textureCoordinate).rrr;\
     return self;
 }
 
-- (void)process
+- (void)paint
 {
     [_program use];
     
