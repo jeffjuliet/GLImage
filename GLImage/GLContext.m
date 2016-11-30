@@ -10,4 +10,14 @@
 
 @implementation GLContext
 
++ (instancetype)sharedOpenGLContext;
+{
+    static GLContext* sharedContext = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedContext = [[GLContext alloc] init];
+    });
+    return sharedContext;
+}
+
 @end
