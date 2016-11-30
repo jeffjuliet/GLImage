@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface GLImage : NSObject
-
-@end
+#import <CoreVideo/CoreVideo.h>
+#import <QuartzCore/QuartzCore.h>
+#import <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+#import <OpenGLES/EAGL.h>
