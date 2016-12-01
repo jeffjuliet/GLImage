@@ -210,8 +210,9 @@ gl_FragColor.rgb = texture2D(inputImageTexture, textureCoordinate).rrr;\
     glVertexAttribPointer(positionSlot, 3, GL_FLOAT, GL_FALSE,0, position);
     GLfloat color[] = {1,1,0,1,0,1,0,1,0,0,1,1,0,0,0,1};
     glVertexAttribPointer(colorSlot, 4, GL_FLOAT, GL_FALSE,0,color);
-    GLfloat coord[] = {0,0,1,0,0,1,1,1};
-    glVertexAttribPointer(textureCoordIn, 2, GL_FLOAT, GL_FALSE, 0, coord);
+    GLfloat coord1[] = {0,0,1,0,0,1,1,1};
+    GLfloat coord2[] = {0,1,1,1,0,0,1,0};
+    glVertexAttribPointer(textureCoordIn, 2, GL_FLOAT, GL_FALSE, 0, _bIsForPresent? coord2: coord1);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 @end

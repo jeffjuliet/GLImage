@@ -130,6 +130,7 @@ const GLubyte indis[] = {
 - (void)render {
     painter.inputTexture = glImage.texture;
     [framebuffer1 useFramebuffer];
+    painter.bIsForPresent = YES;
     [painter paint];
     //    painter2 = [[openGLPainter alloc] initWithVertexShaderString:[NSString stringWithUTF8String:vertexStr] fragmentShaderString:[NSString stringWithUTF8String:fragmentStr2]];
     //    painter2.inputTexture = [framebuffer1 getFramebufferTexture];
