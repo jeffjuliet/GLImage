@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "GLImage.h"
 
+@class UIImage;
 @interface GLImagePicture : NSObject
 
 @property (nonatomic,readonly) GLuint texture;
 @property (nonatomic,readonly) CGSize size;
 
 - (instancetype)initWithCGImage:(CGImageRef)imgRef;
+- (instancetype)initWithImage:(UIImage*)img;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "GLImagePicture.h"
 #import "GLFirmwareData.h"
+#import <UIKit/UIKit.h>
 
 @interface GLImagePicture()
 
@@ -16,6 +17,20 @@
 @end
 
 @implementation GLImagePicture
+
+- (instancetype)initWithImage:(UIImage*)img
+{
+    if( img.imageOrientation != UIImageOrientationUp )
+    {
+        NSLog(@"img orientation change:%@",@([[NSDate date] timeIntervalSince1970]*1000));
+        UIGraphicsBeginImageContextWithOptions(img.size, NO, img.scale);
+        [img drawInRect:CGRectMake(0, 0, img.size.width, img.size.height)];
+        img = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        NSLog(@"img orientation change:%@",@([[NSDate date] timeIntervalSince1970]*1000));
+    }
+    return [self initWithCGImage:img.CGImage];
+}
 
 - (instancetype)initWithCGImage:(CGImageRef)imgRef
 {
