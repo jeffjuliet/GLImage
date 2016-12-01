@@ -23,6 +23,7 @@
 {
     if( img.imageOrientation != UIImageOrientationUp )
     {
+        //drawInRect方法比cggraphicsbegincontext并通过cgcontexttranslatectm及cgcontextdrawimage的方式耗时稍低些，且代码更简洁
         NSLog(@"img orientation change:%@",@([[NSDate date] timeIntervalSince1970]*1000));
         UIGraphicsBeginImageContextWithOptions(img.size, NO, img.scale);
         [img drawInRect:CGRectMake(0, 0, img.size.width, img.size.height)];
@@ -89,6 +90,7 @@
 //        
 //        NSLog(@"textureupload glk begin:%@",@([[NSDate date] timeIntervalSince1970]*1000));
         
+        /*下面glkit方式比上述coregraphics方法耗时一般最少减半*/
         NSError* err = nil;
         GLKTextureInfo* textureinfo = [GLKTextureLoader textureWithCGImage:imgRef options:nil error:&err];
         if( err )
