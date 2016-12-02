@@ -158,6 +158,7 @@ gl_FragColor.rgb = texture2D(inputImageTexture, textureCoordinate).rrr;\
     GLuint params;
     GLuint offset;
 }
+@property (nonatomic,strong) GLProgram* program;
 
 @end
 

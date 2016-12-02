@@ -17,7 +17,6 @@ extern const GLchar* fragmentStr2;
 
 @interface GLPainter : NSObject
 
-@property (nonatomic,readonly) GLProgram* program;
 @property (nonatomic,assign) GLuint inputTexture;
 @property (nonatomic,assign) BOOL bIsForPresent;
 
