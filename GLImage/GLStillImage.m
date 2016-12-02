@@ -1,23 +1,23 @@
 //
-//  GLImagePicture.m
+//  GLStillImage.m
 //  GLImage
 //
 //  Created by 方阳 on 16/11/30.
 //  Copyright © 2016年 jefffyang. All rights reserved.
 //
 
-#import "GLImagePicture.h"
+#import "GLStillImage.h"
 #import "GLFirmwareData.h"
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
 
-@interface GLImagePicture()
+@interface GLStillImage()
 
 @property (nonatomic,assign) CGSize size;
 
 @end
 
-@implementation GLImagePicture
+@implementation GLStillImage
 
 - (instancetype)initWithImage:(UIImage*)img
 {

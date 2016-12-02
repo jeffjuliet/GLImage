@@ -1,5 +1,5 @@
 //
-//  GLImagePicture.h
+//  GLStillImage.h
 //  GLImage
 //
 //  Created by 方阳 on 16/11/30.
@@ -10,7 +10,7 @@
 #import "GLImage.h"
 
 @class UIImage;
-@interface GLImagePicture : NSObject
+@interface  GLStillImage: NSObject
 
 @property (nonatomic,readonly) GLuint texture;
 @property (nonatomic,readonly) CGSize size;

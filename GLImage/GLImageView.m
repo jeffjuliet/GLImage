@@ -12,7 +12,7 @@
 #import "GLImage.h"
 #import "GLFramebuffer.h"
 #import "GLPainter.h"
-#import "GLImagePicture.h"
+#import "GLStillImage.h"
 #import "GLContext.h"
 
 @interface GLImageView()
@@ -28,7 +28,7 @@
     GLuint _params;
     GLuint _offset;
     GLFramebuffer* framebuffer;
-    GLImagePicture* glImage;
+    GLStillImage* glImage;
     GLPainter* painter;
     GLPainter* painter2;
     GLFramebuffer* framebuffer1;
@@ -112,7 +112,7 @@ const GLubyte indis[] = {
 }
 
 - (void)setupFrameBuffer {
-    glImage = [[GLImagePicture alloc] initWithCGImage:self.image.CGImage];
+    glImage = [[GLStillImage alloc] initWithCGImage:self.image.CGImage];
     framebuffer1 = [[GLFramebuffer alloc] initWithSize:glImage.size];
     [framebuffer1 useFramebuffer];
     //    framebuffer2 = [[GLFramebuffer alloc] initWithSize:glImage.size];
