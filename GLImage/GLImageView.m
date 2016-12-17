@@ -18,7 +18,6 @@
 @interface GLImageView()
 {
     CAEAGLLayer* _eaglLayer;
-    EAGLContext* _context;
     GLuint _colorRenderBuffer;
     GLuint _positionSlot;
     GLuint _colorSlot;
@@ -76,9 +75,7 @@ const GLubyte indis[] = {
     //    }
     //    size = CGSizeMake(size.width*ratio*4, size.height*ratio*4);
     
-    CGFloat ratio = 1.336;
-    size = CGSizeMake(size.width/ratio, size.height/ratio);
-    self = [super initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+    self = [super initWithFrame:CGRectMake(0, 100, size.width/10, size.height/10)];
     self.image = img;
     if ( self ) {
         [self setupLayer];
@@ -112,7 +109,7 @@ const GLubyte indis[] = {
 }
 
 - (void)setupFrameBuffer {
-    glImage = [[GLStillImage alloc] initWithCGImage:self.image.CGImage];
+    glImage = [[GLStillImage alloc] initWithImage:self.image];
     framebuffer1 = [[GLFramebuffer alloc] initWithSize:glImage.size];
     [framebuffer1 useFramebuffer];
     //    framebuffer2 = [[GLFramebuffer alloc] initWithSize:glImage.size];

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C04E0ED21DEE737100318A01 /* GLImage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = C04E0ECF1DEE737100318A01 /* GLImage.h */; };
 		C04E0EDA1DEE743500318A01 /* GLContext.m in Sources */ = {isa = PBXBuildFile; fileRef = C04E0ED91DEE743500318A01 /* GLContext.m */; };
+		C08BFA031DFEB951000BC6A5 /* GLTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = C08BFA021DFEB951000BC6A5 /* GLTexture.m */; };
+		C08BFA1C1E03F390000BC6A5 /* GLSimplestImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C08BFA1B1E03F390000BC6A5 /* GLSimplestImageView.m */; };
 		C0CEF2071DEEAD0900224296 /* GLPainter.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CEF2061DEEAD0900224296 /* GLPainter.m */; };
 		C0CEF20C1DEEC7CC00224296 /* GLFramebuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CEF20B1DEEC7CC00224296 /* GLFramebuffer.m */; };
 		C0CEF20F1DEECD6200224296 /* GLProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CEF20E1DEECD6200224296 /* GLProgram.m */; };
@@ -35,6 +37,10 @@
 		C04E0ECF1DEE737100318A01 /* GLImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLImage.h; sourceTree = "<group>"; };
 		C04E0ED81DEE743500318A01 /* GLContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLContext.h; sourceTree = "<group>"; };
 		C04E0ED91DEE743500318A01 /* GLContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLContext.m; sourceTree = "<group>"; };
+		C08BFA011DFEB951000BC6A5 /* GLTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTexture.h; sourceTree = "<group>"; };
+		C08BFA021DFEB951000BC6A5 /* GLTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLTexture.m; sourceTree = "<group>"; };
+		C08BFA1A1E03F390000BC6A5 /* GLSimplestImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSimplestImageView.h; sourceTree = "<group>"; };
+		C08BFA1B1E03F390000BC6A5 /* GLSimplestImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLSimplestImageView.m; sourceTree = "<group>"; };
 		C0CEF2051DEEAD0900224296 /* GLPainter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLPainter.h; sourceTree = "<group>"; };
 		C0CEF2061DEEAD0900224296 /* GLPainter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLPainter.m; sourceTree = "<group>"; };
 		C0CEF20A1DEEC7CC00224296 /* GLFramebuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLFramebuffer.h; sourceTree = "<group>"; };
@@ -94,6 +100,10 @@
 				C0CEF2351DEED78500224296 /* GLFirmwareData.m */,
 				C0CEF2371DEEF08600224296 /* GLImageView.h */,
 				C0CEF2381DEEF08600224296 /* GLImageView.m */,
+				C08BFA011DFEB951000BC6A5 /* GLTexture.h */,
+				C08BFA021DFEB951000BC6A5 /* GLTexture.m */,
+				C08BFA1A1E03F390000BC6A5 /* GLSimplestImageView.h */,
+				C08BFA1B1E03F390000BC6A5 /* GLSimplestImageView.m */,
 			);
 			path = GLImage;
 			sourceTree = "<group>";
@@ -159,10 +169,12 @@
 			files = (
 				C0CEF20C1DEEC7CC00224296 /* GLFramebuffer.m in Sources */,
 				C0CEF2361DEED78500224296 /* GLFirmwareData.m in Sources */,
+				C08BFA031DFEB951000BC6A5 /* GLTexture.m in Sources */,
 				C0CEF20F1DEECD6200224296 /* GLProgram.m in Sources */,
 				C0CEF2071DEEAD0900224296 /* GLPainter.m in Sources */,
 				C04E0EDA1DEE743500318A01 /* GLContext.m in Sources */,
 				C0CEF2331DEED67C00224296 /* GLStillImage.m in Sources */,
+				C08BFA1C1E03F390000BC6A5 /* GLSimplestImageView.m in Sources */,
 				C0CEF2391DEEF08600224296 /* GLImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

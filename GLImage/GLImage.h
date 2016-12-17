@@ -12,3 +12,6 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #import <OpenGLES/EAGL.h>
+
+#define STRINGIZE(x) #x
+#define SHADER_STRING(text) @ STRINGIZE(text)

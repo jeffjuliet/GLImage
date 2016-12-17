@@ -8,7 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger,GLImageViewRenderMode)
+{
+    GLImageViewRenderModeAspectFill,
+    GLImageViewRenderModeAspectRatio
+};
+
 @interface GLImageView : UIView
+
+@property (nonatomic,assign) GLImageViewRenderMode renderMode;
 
 @property (nonatomic,strong) UIImage* image;
 - (instancetype)initWithImg:(UIImage *)img;
