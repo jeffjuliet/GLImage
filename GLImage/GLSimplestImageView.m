@@ -53,8 +53,6 @@
 
 - (void)setFrameBuffer;
 {
-//    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
-//    glViewport(0, 0, bufferSize.width/10, bufferSize.height/10);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER, _colorRenderBuffer);
 }
 

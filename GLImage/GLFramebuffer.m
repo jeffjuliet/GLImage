@@ -87,4 +87,9 @@
     glBindFramebuffer(GL_FRAMEBUFFER, uFramebuffer);
     glViewport(0, 0, bufferSize.width, bufferSize.height);
 }
+
+- (CVPixelBufferRef)pixelBuffer
+{
+    return imgBuffer;
+}
 @end

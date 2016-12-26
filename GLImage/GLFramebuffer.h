@@ -11,6 +11,7 @@
 @interface GLFramebuffer : NSObject
 
 @property (nonatomic,readonly) GLuint texture;
+@property (nonatomic,readonly) CVPixelBufferRef pixelBuffer;
 
 - (instancetype)initWithSize:(CGSize)size;
 - (void)useFramebuffer;
