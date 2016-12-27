@@ -7,6 +7,6 @@ Pod::Spec.new do |s|
 	s.authors 	= {'jefffyang'=>'jefffyang@qq.com'}
 	s.platform	= :ios,"7.0"
 	s.source	= {:git=>"https://github.com/jeffjuliet/GLImage.git",:tag=>"0.0.1"}
-	s.source_files	= 'GLImage','GLImage/**/*.h'
+	s.source_files	= 'GLImage','GLImage/*/*.h'
 	s.requires_arc	= true
 end
