@@ -13,5 +13,7 @@
 #import <OpenGLES/ES2/glext.h>
 #import <OpenGLES/EAGL.h>
 
+//not 0.0.3
+
 #define STRINGIZE(x) #x
 #define SHADER_STRING(text) @ STRINGIZE(text)
