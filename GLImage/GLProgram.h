@@ -11,7 +11,7 @@
 
 @interface GLProgram : NSObject
 
-- (instancetype)initWithVertexString:(NSString*)verglsl fragmentString:(NSString*)fraglsl;
+- (instancetype)initWithVertexString:(const NSString*)verglsl fragmentString:(const NSString*)fraglsl;
 
 //- (instancetype)initWithVertexChar:(const GLchar*)verglsl fragmentChar:(const GLchar*)fraglsl;
 

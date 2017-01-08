@@ -7,6 +7,7 @@
 //
 
 #import "GLPainter.h"
+#import "shaderString.h"
 
 const GLchar* fragmentStr2 = "precision highp float;\
 varying lowp vec4 DestinationColor;\
@@ -15,6 +16,17 @@ varying highp vec2 textureCoordinate;\
 void main(){\
 gl_FragColor.rgb = texture2D(inputImageTexture, textureCoordinate).rgb;\
 }";
+
+const NSString* defvertex = SHADER(attribute vec4 Position;
+                                   attribute vec4 SourceColor;
+                                   varying vec4 DestinationColor;
+                                   attribute vec2 textureCoordIn;
+                                   varying vec2 textureCoordinate;
+                                   void main(void) {
+                                       DestinationColor = SourceColor;
+                                       gl_Position = Position;
+                                       textureCoordinate = textureCoordIn;
+                                   });
 
 const GLchar* vertexStr = "attribute vec4 Position;\
 attribute vec4 SourceColor; \

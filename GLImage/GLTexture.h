@@ -13,6 +13,9 @@
 
 @property (nonatomic,readonly) GLuint texture;
 
-+ (instancetype)glTextureWithPixelBuffer:(CVPixelBufferRef)pixelBuffer;
+@property (nonatomic,readonly) GLuint lumitexture;
+@property (nonatomic,readonly) GLuint chrometexture;
+
++ (instancetype)glTextureWithPixelBuffer:(CVPixelBufferRef)pixelBuffer isYUV:(BOOL)isYUV;
 
 @end

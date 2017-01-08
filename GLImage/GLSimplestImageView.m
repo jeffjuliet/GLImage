@@ -8,11 +8,13 @@
 
 #import "GLSimplestImageView.h"
 #import "GLContext.h"
+#import "GLFramebuffer.h"
 
 @interface GLSimplestImageView()
 {
     GLuint _colorRenderBuffer;
     CAEAGLLayer* _eaglLayer;
+    GLFramebuffer* framebuffer;
 }
 
 @end
@@ -45,6 +47,11 @@
     return [CAEAGLLayer class];
 }
 
+- (void)layoutSubviews
+{
+    
+}
+
 - (void)setupLayer
 {
     _eaglLayer = (CAEAGLLayer*)self.layer;
@@ -53,6 +60,8 @@
 
 - (void)setFrameBuffer;
 {
+    framebuffer = [[GLFramebuffer alloc] initWithSize:self.frame.size];
+    [framebuffer useFramebuffer];
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER, _colorRenderBuffer);
 }
 

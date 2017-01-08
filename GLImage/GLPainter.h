@@ -15,6 +15,8 @@ extern const GLchar* fragmentStr;
 
 extern const GLchar* fragmentStr2;
 
+extern const NSString* defvertex;
+
 @interface GLPainter : NSObject
 {
     GLProgram* _program;

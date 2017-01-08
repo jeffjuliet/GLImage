@@ -12,5 +12,6 @@
 
 - (void)setFrameBuffer;
 - (void)display;
+- (void)paint;
 
 @end

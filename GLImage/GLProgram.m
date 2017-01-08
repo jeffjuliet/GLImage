@@ -18,7 +18,7 @@
 
 @implementation GLProgram
 
-- (instancetype)initWithVertexString:(NSString *)verglsl fragmentString:(NSString *)fraglsl;
+- (instancetype)initWithVertexString:(const NSString *)verglsl fragmentString:(const NSString *)fraglsl;
 {
     return [self initWithVertexChar:[verglsl UTF8String] fragmentChar:[fraglsl UTF8String]];
 }
