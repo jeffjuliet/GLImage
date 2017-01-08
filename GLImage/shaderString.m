@@ -30,9 +30,9 @@ const NSString* glYUVVideoRangeToRGBFragmentShaderString = SHADER
  uniform mat3 yuvToRGBConversion;
  void main()
  {
-     vec3 = yuv;
-     yuv.y = texture2D(luminanceTexture,inputTextureCoordinate).r - (16.0/255.0);
-     yuv.uv = texture2D(chrominanceTexture,inputTextureCoordinate).ra - vec2(0.5,0.5);
+     vec3 yuv;
+     yuv.x = texture2D(luminanceTexture,inputTextureCoordinate).r - (16.0/255.0);
+     yuv.yz = texture2D(chrominanceTexture,inputTextureCoordinate).ra - vec2(0.5,0.5);
      gl_FragColor = vec4(yuvToRGBConversion * yuv,1);
  }
 );
@@ -47,8 +47,8 @@ const NSString* glYUVFullRangeToRGBFragmentShaderString = SHADER
  void main()
  {
      vec3 yuv;
-     yuv.y = texture2D(luminanceTexture,inputTextureCoordinate).r;
-     yuv.uv = texture2D(chrominance,inputTextureCoordinate).ra - vec2(0.5,0.5);
+     yuv.x = texture2D(luminanceTexture,inputTextureCoordinate).r;
+     yuv.yz = texture2D(chrominance,inputTextureCoordinate).ra - vec2(0.5,0.5);
      gl_FragColor = vec4(yuvToRGBConversion * yuv,1);
  }
 );
