@@ -52,6 +52,22 @@ const NSString* glYUVFullRangeToRGBFragmentShaderString = SHADER
      gl_FragColor = vec4(yuvToRGBConversion * yuv,1);
  }
 );
+
+GLfloat BT601videoRangeConversionMatrix[] ={
+    1.164, 1.164, 1.164, 0.0, -0.392, 2.017, 1.596, -0.813, 0.0
+};
+
+GLfloat BT601fullRangeConversionMatrix[] ={
+    1.0, 1.0, 1.0, 0.0, -0.343, 1.765, 1.4, -0.711, 0.0
+};
+
+GLfloat BT709videoRangeConversionMatrix[] ={
+    1.164, 1.164, 1.164, 0.0, -0.213, 2.112, 1.793, -0.533, 0.0
+};
+
+const GLfloat* yuvToRGBBT601videoRangeConversionMatrix = BT601videoRangeConversionMatrix;
+const GLfloat* yuvToRGBBT601fullRangeConversionMatrix = BT601fullRangeConversionMatrix;
+const GLfloat* yuvToRGBBT709videoRangeConversionMatrix = BT709videoRangeConversionMatrix;
 /*
  NSString *const kGPUImageYUVFullRangeConversionForLAFragmentShaderString = SHADER_STRING
  (
