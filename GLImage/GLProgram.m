@@ -55,6 +55,7 @@
         glGetShaderInfoLog(shader, sizeof(messages), 0, &messages[0]);
         NSString *messageString = [NSString stringWithUTF8String:messages];
         NSLog(@"%@", messageString);
+        glDeleteShader(shader);
         return 0;
     }
     return shader;

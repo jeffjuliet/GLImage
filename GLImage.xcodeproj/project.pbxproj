@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		C0034C401E22054B00AFF999 /* shaderString.m in Sources */ = {isa = PBXBuildFile; fileRef = C0034C3F1E22054B00AFF999 /* shaderString.m */; };
+		C03046CD1E29BA7E009DADBD /* GLBlendPainter.m in Sources */ = {isa = PBXBuildFile; fileRef = C03046CC1E29BA7E009DADBD /* GLBlendPainter.m */; };
 		C04E0ED21DEE737100318A01 /* GLImage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = C04E0ECF1DEE737100318A01 /* GLImage.h */; };
 		C04E0EDA1DEE743500318A01 /* GLContext.m in Sources */ = {isa = PBXBuildFile; fileRef = C04E0ED91DEE743500318A01 /* GLContext.m */; };
+		C07EF2F21E6D104500039924 /* CtFrameParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C07EF2F11E6D104500039924 /* CtFrameParser.m */; };
 		C08BFA031DFEB951000BC6A5 /* GLTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = C08BFA021DFEB951000BC6A5 /* GLTexture.m */; };
 		C08BFA1C1E03F390000BC6A5 /* GLSimplestImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C08BFA1B1E03F390000BC6A5 /* GLSimplestImageView.m */; };
 		C0CEF2071DEEAD0900224296 /* GLPainter.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CEF2061DEEAD0900224296 /* GLPainter.m */; };
@@ -17,7 +19,6 @@
 		C0CEF20F1DEECD6200224296 /* GLProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CEF20E1DEECD6200224296 /* GLProgram.m */; };
 		C0CEF2331DEED67C00224296 /* GLStillImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CEF2321DEED67C00224296 /* GLStillImage.m */; };
 		C0CEF2361DEED78500224296 /* GLFirmwareData.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CEF2351DEED78500224296 /* GLFirmwareData.m */; };
-		C0CEF2391DEEF08600224296 /* GLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CEF2381DEEF08600224296 /* GLImageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,10 +37,14 @@
 /* Begin PBXFileReference section */
 		C0034C3E1E22054B00AFF999 /* shaderString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shaderString.h; sourceTree = "<group>"; };
 		C0034C3F1E22054B00AFF999 /* shaderString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = shaderString.m; sourceTree = "<group>"; };
+		C03046CB1E29BA7E009DADBD /* GLBlendPainter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLBlendPainter.h; sourceTree = "<group>"; };
+		C03046CC1E29BA7E009DADBD /* GLBlendPainter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLBlendPainter.m; sourceTree = "<group>"; };
 		C04E0ECC1DEE737100318A01 /* libGLImage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGLImage.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C04E0ECF1DEE737100318A01 /* GLImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLImage.h; sourceTree = "<group>"; };
 		C04E0ED81DEE743500318A01 /* GLContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLContext.h; sourceTree = "<group>"; };
 		C04E0ED91DEE743500318A01 /* GLContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLContext.m; sourceTree = "<group>"; };
+		C07EF2F01E6D104500039924 /* CtFrameParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CtFrameParser.h; sourceTree = "<group>"; };
+		C07EF2F11E6D104500039924 /* CtFrameParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CtFrameParser.m; sourceTree = "<group>"; };
 		C08BFA011DFEB951000BC6A5 /* GLTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLTexture.h; sourceTree = "<group>"; };
 		C08BFA021DFEB951000BC6A5 /* GLTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLTexture.m; sourceTree = "<group>"; };
 		C08BFA1A1E03F390000BC6A5 /* GLSimplestImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSimplestImageView.h; sourceTree = "<group>"; };
@@ -54,8 +59,6 @@
 		C0CEF2321DEED67C00224296 /* GLStillImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLStillImage.m; sourceTree = "<group>"; };
 		C0CEF2341DEED78500224296 /* GLFirmwareData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLFirmwareData.h; sourceTree = "<group>"; };
 		C0CEF2351DEED78500224296 /* GLFirmwareData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLFirmwareData.m; sourceTree = "<group>"; };
-		C0CEF2371DEEF08600224296 /* GLImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLImageView.h; sourceTree = "<group>"; };
-		C0CEF2381DEEF08600224296 /* GLImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLImageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +91,7 @@
 		C04E0ECE1DEE737100318A01 /* GLImage */ = {
 			isa = PBXGroup;
 			children = (
+				C07EF2EF1E6D103600039924 /* coretext */,
 				C04E0ECF1DEE737100318A01 /* GLImage.h */,
 				C04E0ED81DEE743500318A01 /* GLContext.h */,
 				C04E0ED91DEE743500318A01 /* GLContext.m */,
@@ -101,16 +105,25 @@
 				C0CEF2321DEED67C00224296 /* GLStillImage.m */,
 				C0CEF2341DEED78500224296 /* GLFirmwareData.h */,
 				C0CEF2351DEED78500224296 /* GLFirmwareData.m */,
-				C0CEF2371DEEF08600224296 /* GLImageView.h */,
-				C0CEF2381DEEF08600224296 /* GLImageView.m */,
 				C08BFA011DFEB951000BC6A5 /* GLTexture.h */,
 				C08BFA021DFEB951000BC6A5 /* GLTexture.m */,
 				C08BFA1A1E03F390000BC6A5 /* GLSimplestImageView.h */,
 				C08BFA1B1E03F390000BC6A5 /* GLSimplestImageView.m */,
 				C0034C3E1E22054B00AFF999 /* shaderString.h */,
 				C0034C3F1E22054B00AFF999 /* shaderString.m */,
+				C03046CB1E29BA7E009DADBD /* GLBlendPainter.h */,
+				C03046CC1E29BA7E009DADBD /* GLBlendPainter.m */,
 			);
 			path = GLImage;
+			sourceTree = "<group>";
+		};
+		C07EF2EF1E6D103600039924 /* coretext */ = {
+			isa = PBXGroup;
+			children = (
+				C07EF2F01E6D104500039924 /* CtFrameParser.h */,
+				C07EF2F11E6D104500039924 /* CtFrameParser.m */,
+			);
+			path = coretext;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,11 +189,12 @@
 				C0CEF2361DEED78500224296 /* GLFirmwareData.m in Sources */,
 				C08BFA031DFEB951000BC6A5 /* GLTexture.m in Sources */,
 				C0CEF20F1DEECD6200224296 /* GLProgram.m in Sources */,
+				C07EF2F21E6D104500039924 /* CtFrameParser.m in Sources */,
 				C0CEF2071DEEAD0900224296 /* GLPainter.m in Sources */,
 				C04E0EDA1DEE743500318A01 /* GLContext.m in Sources */,
 				C0CEF2331DEED67C00224296 /* GLStillImage.m in Sources */,
 				C08BFA1C1E03F390000BC6A5 /* GLSimplestImageView.m in Sources */,
-				C0CEF2391DEEF08600224296 /* GLImageView.m in Sources */,
+				C03046CD1E29BA7E009DADBD /* GLBlendPainter.m in Sources */,
 				C0034C401E22054B00AFF999 /* shaderString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -228,9 +242,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -269,8 +283,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

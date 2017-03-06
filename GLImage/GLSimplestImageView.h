@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class  GLFramebuffer;
 @interface GLSimplestImageView : UIView
 
-- (void)setFrameBuffer;
+- (void)setFrameBuffer:(GLFramebuffer*)fb;
 - (void)display;
 - (void)paint;
 
