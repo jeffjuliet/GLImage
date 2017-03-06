@@ -32,6 +32,11 @@
     return self;
 }
 
+- (CGSize)size
+{
+    return bufferSize;
+}
+
 - (void)generateFramebuffer;
 {
     glGenFramebuffers(1, &uFramebuffer);
