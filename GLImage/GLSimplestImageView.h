@@ -13,6 +13,5 @@
 
 - (void)setFrameBuffer:(GLFramebuffer*)fb;
 - (void)display;
-- (void)paint;
 
 @end

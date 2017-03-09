@@ -10,6 +10,26 @@
 
 static void* GLImageContextKey = &GLImageContextKey;
 
+void dispatch_async_on_glcontextqueue(dispatch_block_t block)
+{
+    dispatch_queue_t videoProcessingQueue = [[GLContext sharedGLContext] getGLContextQueue];
+    
+#if !OS_OBJECT_USE_OBJC
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    if (dispatch_get_current_queue() == videoProcessingQueue)
+#pragma clang diagnostic pop
+#else
+        if (dispatch_get_specific([[GLContext sharedGLContext] contextKey]))
+#endif
+        {
+            block();
+        }else
+        {
+            dispatch_async(videoProcessingQueue, block);
+        }
+}
+
 @interface GLContext()
 {
     dispatch_queue_t glQueue;
@@ -68,7 +88,7 @@ static void* GLImageContextKey = &GLImageContextKey;
 {
     if( !glContext )
     {
-        glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:nil];
+        glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:nil];
     }
 }
 
@@ -85,5 +105,10 @@ static void* GLImageContextKey = &GLImageContextKey;
         NSAssert(ret == kCVReturnSuccess, @"core video texture cache create fail");
     }
     return coreVideoTextureCache;
+}
+
+- (void*)contextKey
+{
+    return GLImageContextKey;
 }
 @end

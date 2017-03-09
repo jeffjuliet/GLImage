@@ -91,8 +91,8 @@
 		C04E0ECE1DEE737100318A01 /* GLImage */ = {
 			isa = PBXGroup;
 			children = (
-				C07EF3261E6D28CF00039924 /* GLFramebuffer.h */,
 				C07EF2EF1E6D103600039924 /* coretext */,
+				C07EF3261E6D28CF00039924 /* GLFramebuffer.h */,
 				C04E0ECF1DEE737100318A01 /* GLImage.h */,
 				C04E0ED81DEE743500318A01 /* GLContext.h */,
 				C04E0ED91DEE743500318A01 /* GLContext.m */,

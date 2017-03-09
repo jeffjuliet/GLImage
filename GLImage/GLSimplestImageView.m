@@ -36,11 +36,13 @@
 {
     self = [super initWithFrame:frame];
     if( self ){
-        [[GLContext sharedGLContext] useGLContext];
         [self setupLayer];
-        glGenRenderbuffers(1, &_colorRenderBuffer);
-        glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
-        [[GLContext sharedGLContext].context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
+        dispatch_async([[GLContext sharedGLContext] getGLContextQueue], ^{
+            [[GLContext sharedGLContext] useGLContext];
+            glGenRenderbuffers(1, &_colorRenderBuffer);
+            glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
+            [[GLContext sharedGLContext].context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
+        });
     }
     return self;
 }
@@ -55,7 +57,10 @@
     CGRect frame = self.frame;
     if( CGSizeEqualToSize(self.frame.size, fbuf.size) )
     {
-        fbuf = [[GLFramebuffer alloc] initWithSize:self.frame.size];
+        dispatch_async([[GLContext sharedGLContext] getGLContextQueue], ^{
+            [[GLContext sharedGLContext] useGLContext];
+            fbuf = [[GLFramebuffer alloc] initWithSize:frame.size];
+        });
     }
 }
 
@@ -67,21 +72,23 @@
 
 - (void)setFrameBuffer:(GLFramebuffer*)fb
 {
-    if( !painter )
-    {
-        painter = [[GLPainter alloc] initWithVertexShader:defVertexShader fragmentShader:defFragmentShader];
-        painter.bIsForPresent = YES;
-    }
-    if( !fbuf )
-    {
-        fbuf = [[GLFramebuffer alloc] initWithSize:self.frame.size];
-    }
-    painter.inputTexture = fb.texture;
-    [fbuf useFramebuffer];
-    glViewport(0, 0, self.frame.size.width, self.frame.size.height);
-    [painter paint];
-
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER, _colorRenderBuffer);
+    dispatch_async_on_glcontextqueue(^{
+        if( !painter )
+        {
+            painter = [[GLPainter alloc] initWithVertexShader:defVertexShader fragmentShader:defFragmentShader];
+            painter.bIsForPresent = YES;
+        }
+        if( !fbuf )
+        {
+            fbuf = [[GLFramebuffer alloc] initWithSize:self.frame.size];
+        }
+        painter.inputTexture = fb.texture;
+        [fbuf useFramebuffer];
+        glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+        [painter paint];
+        
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER, _colorRenderBuffer);
+    });
 }
 
 - (void)display
