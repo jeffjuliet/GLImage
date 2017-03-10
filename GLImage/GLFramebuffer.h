@@ -15,6 +15,7 @@
 @property (nonatomic,assign) CGSize size;
 
 - (instancetype)initWithSize:(CGSize)size;
+- (instancetype)initWithSize:(CGSize)size forRender:(BOOL)isForRender;
 - (void)useFramebuffer;
 
 @end

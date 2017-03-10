@@ -55,11 +55,13 @@
 - (void)layoutSubviews
 {
     CGRect frame = self.frame;
-    if( CGSizeEqualToSize(self.frame.size, fbuf.size) )
+    if( !CGSizeEqualToSize(self.frame.size, fbuf.size) )
     {
         dispatch_async([[GLContext sharedGLContext] getGLContextQueue], ^{
             [[GLContext sharedGLContext] useGLContext];
-            fbuf = [[GLFramebuffer alloc] initWithSize:frame.size];
+            fbuf = [[GLFramebuffer alloc] initWithSize:frame.size forRender:YES];
+            [fbuf useFramebuffer];
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER, _colorRenderBuffer);
         });
     }
 }
@@ -80,14 +82,13 @@
         }
         if( !fbuf )
         {
-            fbuf = [[GLFramebuffer alloc] initWithSize:self.frame.size];
+            fbuf = [[GLFramebuffer alloc] initWithSize:self.frame.size forRender:YES];
         }
         painter.inputTexture = fb.texture;
         [fbuf useFramebuffer];
         glViewport(0, 0, self.frame.size.width, self.frame.size.height);
         [painter paint];
         
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER, _colorRenderBuffer);
     });
 }
 

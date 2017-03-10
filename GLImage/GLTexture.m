@@ -75,16 +75,6 @@
     return self;
 }
 
-- (GLuint)lumitexture
-{
-    return CVOpenGLESTextureGetName(luminanceTextureRef);
-}
-
-- (GLuint)chrometexture
-{
-    return CVOpenGLESTextureGetName(chrominanceTextureRef);
-}
-
 - (instancetype)initWithPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 {
     self = [super init];
@@ -100,6 +90,16 @@
         glBindTexture(GL_TEXTURE_2D, 0);
     }
     return  self;
+}
+
+- (GLuint)lumitexture
+{
+    return CVOpenGLESTextureGetName(luminanceTextureRef);
+}
+
+- (GLuint)chrometexture
+{
+    return CVOpenGLESTextureGetName(chrominanceTextureRef);
 }
 
 - (GLuint)texture

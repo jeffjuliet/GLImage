@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "GLImage.h"
-#import "GLProgram.h"
 
+@class GLProgram;
 @interface GLPainter : NSObject
 {
     GLProgram* _program;

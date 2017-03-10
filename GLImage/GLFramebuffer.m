@@ -32,6 +32,25 @@
     return self;
 }
 
+- (instancetype)initWithSize:(CGSize)size forRender:(BOOL)isForRender
+{
+    self = [super init];
+    if( self )
+    {
+        bufferSize = size;
+        if( isForRender )
+        {
+            glGenFramebuffers(1, &uFramebuffer);
+            glBindFramebuffer(GL_FRAMEBUFFER, uFramebuffer);
+        }
+        else
+        {
+            [self generateFramebuffer];
+        }
+    }
+    return self;
+}
+
 - (CGSize)size
 {
     return bufferSize;
