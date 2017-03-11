@@ -21,15 +21,10 @@
 
 @implementation GLFramebuffer
 
+#pragma mark api
 - (instancetype)initWithSize:(CGSize)size
 {
-    self = [super init];
-    if( self )
-    {
-        bufferSize = size;
-        [self generateFramebuffer];
-    }
-    return self;
+    return [self initWithSize:size forRender:NO];
 }
 
 - (instancetype)initWithSize:(CGSize)size forRender:(BOOL)isForRender
@@ -55,6 +50,24 @@
 {
     return bufferSize;
 }
+
+- (GLuint)texture
+{
+    return CVOpenGLESTextureGetName(cvTextureRef);
+}
+
+- (void)useFramebuffer
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, uFramebuffer);
+    glViewport(0, 0, bufferSize.width, bufferSize.height);
+}
+
+- (CVPixelBufferRef)pixelBuffer
+{
+    return imgBuffer;
+}
+
+#pragma mark utilities
 
 - (void)generateFramebuffer;
 {
@@ -99,21 +112,5 @@
     GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
     NSAssert(status == GL_FRAMEBUFFER_COMPLETE, @"Incomplete filter FBO: %d", status);
     glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-- (GLuint)texture
-{
-    return CVOpenGLESTextureGetName(cvTextureRef);
-}
-
-- (void)useFramebuffer
-{
-    glBindFramebuffer(GL_FRAMEBUFFER, uFramebuffer);
-    glViewport(0, 0, bufferSize.width, bufferSize.height);
-}
-
-- (CVPixelBufferRef)pixelBuffer
-{
-    return imgBuffer;
 }
 @end

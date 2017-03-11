@@ -40,21 +40,11 @@
         glEnableVertexAttribArray(textureCoordIn);
         
         textureSampleUniform = [_program getUniformLocation:@"inputImageTexture"];
-        params = [_program getUniformLocation:@"params"];
-        if( params != 0xffffffff )
-        {
-            glUniform4f(params, 0.33, 0.63, 0.4, 0.35);
-        }
-        offset = [_program getUniformLocation:@"singleStepOffset"];
-        if( offset != 0xffffffff )
-        {
-            GLfloat w = 0.01,h = 0.01;
-            glUniform2f(offset, w, h);
-        }
     }
     return self;
 }
 
+GLfloat co[] = {0,0,0,1,1,0,1,1};
 - (void)paint
 {
     [_program use];
@@ -72,7 +62,9 @@
 //    glVertexAttribPointer(colorSlot, 4, GL_FLOAT, GL_FALSE,0,color);
     GLfloat coord1[] = {0,0,1,0,0,1,1,1};
     GLfloat coord2[] = {0,1,1,1,0,0,1,0};
-    glVertexAttribPointer(textureCoordIn, 2, GL_FLOAT, GL_FALSE, 0, _bIsForPresent? coord2: coord1);
+    GLfloat* coo = coord2;
+    if( self.rotate ) coo = co;
+    glVertexAttribPointer(textureCoordIn, 2, GL_FLOAT, GL_FALSE, 0, _bIsForPresent? coo: coord1);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 @end

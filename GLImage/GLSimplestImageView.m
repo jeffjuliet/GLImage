@@ -37,8 +37,7 @@
     self = [super initWithFrame:frame];
     if( self ){
         [self setupLayer];
-        dispatch_async([[GLContext sharedGLContext] getGLContextQueue], ^{
-            [[GLContext sharedGLContext] useGLContext];
+        dispatch_async_on_glcontextqueue(^{
             glGenRenderbuffers(1, &_colorRenderBuffer);
             glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
             [[GLContext sharedGLContext].context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
@@ -54,14 +53,23 @@
 
 - (void)layoutSubviews
 {
+    [super layoutSubviews];
     CGRect frame = self.frame;
     if( !CGSizeEqualToSize(self.frame.size, fbuf.size) )
     {
-        dispatch_async([[GLContext sharedGLContext] getGLContextQueue], ^{
-            [[GLContext sharedGLContext] useGLContext];
+        dispatch_async_on_glcontextqueue(^{
             fbuf = [[GLFramebuffer alloc] initWithSize:frame.size forRender:YES];
             [fbuf useFramebuffer];
+            if( frame.size.width > frame.size.height )
+            {
+                painter.rotate = YES;
+            }
+            else
+            {
+                painter.rotate = NO;
+            }
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER, _colorRenderBuffer);
+            
         });
     }
 }
@@ -80,13 +88,19 @@
             painter = [[GLPainter alloc] initWithVertexShader:defVertexShader fragmentShader:defFragmentShader];
             painter.bIsForPresent = YES;
         }
-        if( !fbuf )
-        {
-            fbuf = [[GLFramebuffer alloc] initWithSize:self.frame.size forRender:YES];
-        }
+//        if( !fbuf )
+//        {
+//            fbuf = [[GLFramebuffer alloc] initWithSize:self.frame.size forRender:YES];
+//            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER, _colorRenderBuffer);
+//        }
         painter.inputTexture = fb.texture;
         [fbuf useFramebuffer];
-        glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+        GLint backingWidth, backingHeight;
+        glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
+        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &backingWidth);
+        glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &backingHeight);
+        glViewport(0, 0, backingWidth, backingHeight);
+        NSLog(@"width:%@,height:%@",@(backingWidth),@(backingHeight));
         [painter paint];
         
     });
@@ -94,6 +108,7 @@
 
 - (void)display
 {
+    glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
     [[GLContext sharedGLContext].context presentRenderbuffer:GL_RENDERBUFFER];
 }
 @end

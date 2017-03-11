@@ -23,10 +23,14 @@ void dispatch_async_on_glcontextqueue(dispatch_block_t block)
         if (dispatch_get_specific([[GLContext sharedGLContext] contextKey]))
 #endif
         {
+            [[GLContext sharedGLContext] useGLContext];
             block();
         }else
         {
-            dispatch_async(videoProcessingQueue, block);
+            dispatch_async(videoProcessingQueue, ^{
+                [[GLContext sharedGLContext] useGLContext];
+                block();
+            });
         }
 }
 
