@@ -40,9 +40,10 @@ typedef NS_ENUM(NSUInteger,GLPainterInputRotation)
 
 @property (nonatomic,assign) GLuint inputTexture;
 @property (nonatomic,assign) BOOL bIsForPresent;
-@property (nonatomic,assign) BOOL rotate;
+@property (nonatomic,assign) GLPainterInputRotation inputRotation;
 
 - (instancetype)initWithVertexShader:(const NSString*)vShader fragmentShader:(const NSString*)fShader;
+- (GLfloat*)inputTextureCoordinatesForInputRotation:(GLPainterInputRotation)rotation;
 - (void)paint;
 
 @end

@@ -62,11 +62,11 @@
             [fbuf useFramebuffer];
             if( frame.size.width > frame.size.height )
             {
-                painter.rotate = YES;
+                painter.inputRotation = GLInputRotationCounterClockWise90;
             }
             else
             {
-                painter.rotate = NO;
+                painter.inputRotation = GLInputRotationNone;
             }
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER, _colorRenderBuffer);
             
@@ -100,7 +100,7 @@
         glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &backingWidth);
         glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &backingHeight);
         glViewport(0, 0, backingWidth, backingHeight);
-        NSLog(@"width:%@,height:%@",@(backingWidth),@(backingHeight));
+//        NSLog(@"width:%@,height:%@",@(backingWidth),@(backingHeight));
         [painter paint];
         
     });
