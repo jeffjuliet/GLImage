@@ -87,22 +87,15 @@ const NSString* glBlendShaderFragmentString = SHADER
  uniform sampler2D inputTexture2;
  void main()
  {
-     /*if( inputTextureCoordinate.x >= 0.5 && inputTextureCoordinate.y >= 0.5 )
+     vec4 color = texture2D(inputTexture2,inputTextureCoordinate);
+     if( color.a > 0.0 )
      {
-         gl_FragColor = texture2D(inputTexture2,vec2(inputTextureCoordinate.x*2.0-1.0,inputTextureCoordinate.y*2.0-1.0)).rgba;
+         gl_FragColor.rgba = vec4(clamp(color.r/color.a,0.0,1.0),clamp(color.g/color.a,0.0,1.0),clamp(color.b/color.a,0.0,1.0),color.a);
      }
      else
-     {*/
-         vec4 color = texture2D(inputTexture2,inputTextureCoordinate);
-         if( color.a > 0.0 )
-         {
-             gl_FragColor.rgba = vec4(clamp(color.r/color.a,0.0,1.0),clamp(color.g/color.a,0.0,1.0),clamp(color.b/color.a,0.0,1.0),color.a);
-         }
-         else
-         {
-             gl_FragColor.rgba = color;
-         }
-     //}
+     {
+         gl_FragColor.rgba = color;
+     }
  }
 );
 

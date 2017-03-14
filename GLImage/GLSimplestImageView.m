@@ -40,7 +40,6 @@
         dispatch_async_on_glcontextqueue(^{
             glGenRenderbuffers(1, &_colorRenderBuffer);
             glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
-            [[GLContext sharedGLContext].context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
         });
     }
     return self;
@@ -68,8 +67,9 @@
             {
                 painter.inputRotation = GLInputRotationNone;
             }
+            glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER, _colorRenderBuffer);
-            
+            [[GLContext sharedGLContext].context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
         });
     }
 }
@@ -87,12 +87,15 @@
         {
             painter = [[GLPainter alloc] initWithVertexShader:defVertexShader fragmentShader:defFragmentShader];
             painter.bIsForPresent = YES;
+            painter.inputRotation = (self.frame.size.width>self.frame.size.height?GLInputRotationCounterClockWise90:GLInputRotationNone);
         }
-//        if( !fbuf )
-//        {
-//            fbuf = [[GLFramebuffer alloc] initWithSize:self.frame.size forRender:YES];
-//            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER, _colorRenderBuffer);
-//        }
+        if( !fbuf )
+        {
+            fbuf = [[GLFramebuffer alloc] initWithSize:self.frame.size forRender:YES];
+            glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER, _colorRenderBuffer);
+            [[GLContext sharedGLContext].context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
+        }
         painter.inputTexture = fb.texture;
         [fbuf useFramebuffer];
         GLint backingWidth, backingHeight;

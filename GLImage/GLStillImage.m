@@ -71,7 +71,7 @@
             NSLog(@"%@", err.description);
         }
         GLuint name = textureinfo.name;
-        if( !name )
+        if( !name )//若glk方式失败则启用core graphics方式
         {
             glGenTextures(1, &_texture);
             glBindTexture(GL_TEXTURE_2D, _texture);
@@ -82,7 +82,7 @@
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     
-            GLubyte* textureData = (GLubyte*)malloc(width*height*4*sizeof(GLubyte));
+            GLubyte* textureData = (GLubyte*)calloc(1,width*height*4*sizeof(GLubyte));
     
             CGColorSpaceRef colorref = CGColorSpaceCreateDeviceRGB();
             CGContextRef context = CGBitmapContextCreate(textureData, width, height, 8, width*4, colorref, kCGImageAlphaPremultipliedLast);
@@ -96,10 +96,8 @@
             NSLog(@"textureupload after:%@",@([[NSDate date] timeIntervalSince1970]*1000));
             free(textureData);
             glBindTexture(GL_TEXTURE_2D, 0);
-            
-            NSLog(@"textureupload glk begin:%@",@([[NSDate date] timeIntervalSince1970]*1000));
         }
-        else//若glk方式失败则启用core graphics方式
+        else
         {
             NSLog(@"textureupload glk begin:%@,name:%@",@([[NSDate date] timeIntervalSince1970]*1000),@(name));
             glBindTexture(GL_TEXTURE_2D, name);
