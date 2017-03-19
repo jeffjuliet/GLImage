@@ -13,8 +13,6 @@
 
 - (instancetype)initWithVertexString:(const NSString*)verglsl fragmentString:(const NSString*)fraglsl;
 
-//- (instancetype)initWithVertexChar:(const GLchar*)verglsl fragmentChar:(const GLchar*)fraglsl;
-
 - (BOOL)link;
 
 - (void)use;

@@ -48,6 +48,7 @@
     glShaderSource(shader, 1, &shaderstr, NULL);
     glCompileShader(shader);
     
+#ifdef DEBUG
     GLint compileResult;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &compileResult);
     if ( compileResult == GL_FALSE ) {
@@ -58,12 +59,23 @@
         glDeleteShader(shader);
         return 0;
     }
+#endif
     return shader;
 }
 
 - (BOOL)link;
 {
     glLinkProgram(program);
+    
+    if ( vshader ) {
+        glDeleteShader(vshader);
+        vshader = 0;
+    }
+    if ( fshader ) {
+        glDeleteShader(fshader);
+        fshader = 0;
+    }
+#ifdef DEBUG
     GLint status;
     glGetProgramiv(program, GL_LINK_STATUS, &status);
     if ( status == GL_FALSE ) {
@@ -73,14 +85,7 @@
         NSLog(@"%@", messageString);
         return NO;
     }
-    if ( vshader ) {
-        glDeleteShader(vshader);
-        vshader = 0;
-    }
-    if ( fshader ) {
-        glDeleteShader(fshader);
-        fshader = 0;
-    }
+#endif
     return YES;
 }
 

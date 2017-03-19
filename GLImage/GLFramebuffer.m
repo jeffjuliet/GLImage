@@ -81,6 +81,8 @@
     CFDictionarySetValue(attrs, kCVPixelBufferIOSurfacePropertiesKey, empty);
     
     CVReturn pixelBufCreaRet = CVPixelBufferCreate(kCFAllocatorDefault, bufferSize.width, bufferSize.height, kCVPixelFormatType_32BGRA, attrs, &imgBuffer);
+    CFRelease(empty);
+    CFRelease(attrs);
     if( pixelBufCreaRet != kCVReturnSuccess )
     {
         NSAssert(NO, @"pixelbuffer for framebuffer create fail");

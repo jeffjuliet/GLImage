@@ -89,7 +89,7 @@
             CGContextDrawImage(context, CGRectMake(0, 0, width, height), imgRef);
             CGContextRelease(context);
     
-            CFRelease(colorref);
+            CGColorSpaceRelease(colorref);
     
             NSLog(@"textureupload begin:%@",@([[NSDate date] timeIntervalSince1970]*1000));
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)width, (int)height, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
