@@ -55,21 +55,22 @@
     return self;
 }
 
-- (void)enqueueSampleBuffer:(CMSampleBufferRef)sampleBuffer type:(sampleType)type
+- (void)enqueueSampleBuffer:(CMSampleBufferRef)sampleBuffer
 {
+    CMFormatDescriptionRef format = CMSampleBufferGetFormatDescription(sampleBuffer);
     if( !_writing )
     {
         _writing = YES;
         [_assetWriter startWriting];
         [_assetWriter startSessionAtSourceTime:CMSampleBufferGetPresentationTimeStamp(sampleBuffer)];
     }
-    switch ( type ) {
-        case sampleTypeAudio:
+    switch ( CMFormatDescriptionGetMediaType(format) ) {
+        case kCMMediaType_Audio:
         {
             [self enqueueAudioSampleBuffer:sampleBuffer];
         }
             break;
-        case sampleTypeVideo:
+        case kCMMediaType_Video:
         {
             [self enqueueVideoSampleBuffer:sampleBuffer];
         }

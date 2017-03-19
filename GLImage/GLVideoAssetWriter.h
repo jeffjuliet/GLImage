@@ -9,17 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
-typedef NS_ENUM(NSUInteger,sampleType)
-{
-    sampleTypeVideo,
-    sampleTypeAudio
-};
-
 @interface GLVideoAssetWriter : NSObject
 
 - (instancetype)initWithURL:(NSURL*)url withAudio:(BOOL)audio;
 
-- (void)enqueueSampleBuffer:(CMSampleBufferRef)sampleBuffer type:(sampleType)type;
+- (void)enqueueSampleBuffer:(CMSampleBufferRef)sampleBuffer;
 
 - (void)stopRecording;
 
