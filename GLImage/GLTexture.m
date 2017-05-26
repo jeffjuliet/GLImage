@@ -17,6 +17,7 @@
     CVOpenGLESTextureRef textureRef;
     CVOpenGLESTextureRef luminanceTextureRef;
     CVOpenGLESTextureRef chrominanceTextureRef;
+    CGSize size;
 }
 
 @end
@@ -41,20 +42,12 @@
     
 }
 
-- (instancetype)init
-{
-    self = [super init];
-    if( self )
-    {
-    }
-    return self;
-}
-
 - (instancetype)initWithYUVPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 {
     self = [super init];
     if( self )
     {
+        size = CGSizeMake(CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
         /*
          Mapping the luma plane of a 420v buffer as a source texture:
          CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, textureCache, pixelBuffer, NULL, GL_TEXTURE_2D, GL_LUMINANCE, width, height, GL_LUMINANCE, GL_UNSIGNED_BYTE, 0, &outTexture);
@@ -65,12 +58,12 @@
         [[GLContext sharedGLContext] useGLContext];
         CVReturn ret = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, [[GLContext sharedGLContext] coreVideoTextureCache], pixelBuffer, NULL, GL_TEXTURE_2D, GL_LUMINANCE, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer), GL_LUMINANCE, GL_UNSIGNED_BYTE, 0, &luminanceTextureRef);
         glBindTexture(CVOpenGLESTextureGetTarget(luminanceTextureRef), CVOpenGLESTextureGetName(luminanceTextureRef));
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         ret = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, [[GLContext sharedGLContext] coreVideoTextureCache], pixelBuffer, NULL, GL_TEXTURE_2D, GL_LUMINANCE_ALPHA, CVPixelBufferGetWidth(pixelBuffer)/2, CVPixelBufferGetHeight(pixelBuffer)/2, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, 1, &chrominanceTextureRef);
         glBindTexture(CVOpenGLESTextureGetTarget(chrominanceTextureRef), CVOpenGLESTextureGetName(chrominanceTextureRef));
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     }
     return self;
 }
@@ -105,6 +98,11 @@
 - (GLuint)texture
 {
     return CVOpenGLESTextureGetName(textureRef);
+}
+
+- (CGSize)textureSize
+{
+    return size;
 }
 
 - (void)dealloc

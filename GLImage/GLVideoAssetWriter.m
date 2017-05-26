@@ -14,6 +14,7 @@
 @property (nonatomic,strong) AVAssetWriterInput* videoInput;
 @property (nonatomic,strong) AVAssetWriterInput* audioInput;
 @property (nonatomic,assign) BOOL writing;
+@property (nonatomic,strong) NSURL* urlAsset;
 
 @end
 
@@ -21,13 +22,18 @@
 
 
 #pragma mark api
-- (instancetype)initWithURL:(NSURL *)url withAudio:(BOOL)audio
+- (instancetype)initWithURL:(NSURL *)url withAudio:(BOOL)audio videoSize:(CGSize)size
 {
     self = [super init];
     if( self )
     {
+        _urlAsset = url;
+        if( !url )
+        {
+            return self;
+        }
         _assetWriter = [[AVAssetWriter alloc] initWithURL:url fileType:AVFileTypeQuickTimeMovie error:NULL];
-        _videoInput = [[AVAssetWriterInput alloc] initWithMediaType:AVMediaTypeVideo outputSettings:nil];
+        _videoInput = [[AVAssetWriterInput alloc] initWithMediaType:AVMediaTypeVideo outputSettings:@{AVVideoCodecKey:AVVideoCodecH264,AVVideoWidthKey:@(size.width),AVVideoHeightKey:@(size.height)}];// AVVideoCodecKey, AVVideoWidthKey, and AVVideoHeightKey
         if( audio )
         {
             AudioChannelLayout acl;
@@ -51,20 +57,29 @@
             _audioInput.expectsMediaDataInRealTime = YES;
             [_assetWriter addInput:_audioInput];
         }
+        self.writing = YES;
     }
     return self;
 }
 
 - (void)enqueueSampleBuffer:(CMSampleBufferRef)sampleBuffer
 {
-    CMFormatDescriptionRef format = CMSampleBufferGetFormatDescription(sampleBuffer);
-    if( !_writing )
+    if( !self.writing )
     {
-        _writing = YES;
-        [_assetWriter startWriting];
-        [_assetWriter startSessionAtSourceTime:CMSampleBufferGetPresentationTimeStamp(sampleBuffer)];
+        return;
     }
-    switch ( CMFormatDescriptionGetMediaType(format) ) {
+    
+    CMFormatDescriptionRef format = CMSampleBufferGetFormatDescription(sampleBuffer);
+    CMMediaType type = CMFormatDescriptionGetMediaType(format);
+    if( self.writing && type == kCMMediaType_Video) //音频采样频率高于视频，确保画面开头不会有黑的情况，starttime设置为第一帧视频时间
+    {
+        if( self.assetWriter.status == AVAssetWriterStatusUnknown )
+        {
+            [_assetWriter startWriting];
+            [_assetWriter startSessionAtSourceTime:CMSampleBufferGetPresentationTimeStamp(sampleBuffer)];
+        }
+    }
+    switch ( type ) {
         case kCMMediaType_Audio:
         {
             [self enqueueAudioSampleBuffer:sampleBuffer];
@@ -81,6 +96,21 @@
     }
 }
 
+- (void)stopRecording:(void (^)())completion
+{
+    if( _assetWriter.status == AVAssetWriterStatusWriting )
+    {
+        self.writing = NO;
+        [_assetWriter finishWritingWithCompletionHandler:^{
+            if( completion )
+            {
+                completion();
+            }
+        }];
+    }
+}
+
+#pragma mark utility methods
 - (void)enqueueVideoSampleBuffer:(CMSampleBufferRef)buf
 {
     if( [_videoInput isReadyForMoreMediaData] )
@@ -94,14 +124,6 @@
     if( [_audioInput isReadyForMoreMediaData] )
     {
         [_audioInput appendSampleBuffer:buf];
-    }
-}
-
-- (void)stopRecording
-{
-    if( _assetWriter.status == AVAssetWriterStatusWriting )
-    {
-        [_assetWriter finishWritingWithCompletionHandler:^{}];
     }
 }
 @end

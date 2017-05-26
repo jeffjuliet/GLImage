@@ -11,10 +11,12 @@
 
 @interface GLVideoAssetWriter : NSObject
 
-- (instancetype)initWithURL:(NSURL*)url withAudio:(BOOL)audio;
+@property (nonatomic,strong,readonly) NSURL* urlAsset;
+
+- (instancetype)initWithURL:(NSURL*)url withAudio:(BOOL)audio videoSize:(CGSize)size;
 
 - (void)enqueueSampleBuffer:(CMSampleBufferRef)sampleBuffer;
 
-- (void)stopRecording;
+- (void)stopRecording:(void(^)())completion;
 
 @end

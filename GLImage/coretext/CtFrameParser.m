@@ -21,8 +21,13 @@
 
 - (CTFrameRef)getCTFrameOfString:(NSAttributedString *)str inRect:(CGRect)rect;
 {
+    if( !str )
+    {
+        return nil;
+    }
     CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)str);
-    CGPathRef path = CGPathCreateWithRect(CGRectMake(0, 0, 200,50), &CGAffineTransformIdentity);
+    CGSize size = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(0, 0), nil, rect.size, nil);
+    CGPathRef path = CGPathCreateWithRect(CGRectMake(0, 0, size.width, size.height), &CGAffineTransformIdentity);
     CTFrameRef frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, str.length), path, NULL);
     CFRelease(path);
     CFRelease(framesetter);

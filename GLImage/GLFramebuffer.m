@@ -59,7 +59,14 @@
 - (void)useFramebuffer
 {
     glBindFramebuffer(GL_FRAMEBUFFER, uFramebuffer);
-    glViewport(0, 0, bufferSize.width, bufferSize.height);
+    int viewPort[4];
+    glGetIntegerv(GL_VIEWPORT,viewPort);
+    CGRect originViewPort = CGRectMake(viewPort[0], viewPort[1], viewPort[2], viewPort[3]);
+    CGRect destViewPort = CGRectMake(0, 0, bufferSize.width, bufferSize.height);
+    if( !CGRectEqualToRect(originViewPort, destViewPort) )
+    {
+        glViewport(0, 0, bufferSize.width, bufferSize.height);
+    }
 }
 
 - (CVPixelBufferRef)pixelBuffer
@@ -67,6 +74,13 @@
     return imgBuffer;
 }
 
+- (void)dealloc
+{
+    if( imgBuffer )
+    {
+        CFRelease(imgBuffer);
+    }
+}
 #pragma mark utilities
 
 - (void)generateFramebuffer;
@@ -79,6 +93,7 @@
     empty = CFDictionaryCreate(kCFAllocatorDefault, NULL, NULL, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks); // our empty IOSurface properties dictionary
     attrs = CFDictionaryCreateMutable(kCFAllocatorDefault, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
     CFDictionarySetValue(attrs, kCVPixelBufferIOSurfacePropertiesKey, empty);
+    //CFDictionarySetValue(attrs, kCVPixelBufferOpenGLESCompatibilityKey, empty);
     
     CVReturn pixelBufCreaRet = CVPixelBufferCreate(kCFAllocatorDefault, bufferSize.width, bufferSize.height, kCVPixelFormatType_32BGRA, attrs, &imgBuffer);
     CFRelease(empty);

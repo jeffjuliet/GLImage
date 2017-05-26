@@ -18,4 +18,6 @@
 
 + (instancetype)glTextureWithPixelBuffer:(CVPixelBufferRef)pixelBuffer isYUV:(BOOL)isYUV;
 
+- (CGSize)textureSize;
+
 @end

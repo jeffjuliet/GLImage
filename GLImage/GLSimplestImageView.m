@@ -57,16 +57,17 @@
     if( !CGSizeEqualToSize(self.frame.size, fbuf.size) )
     {
         dispatch_async_on_glcontextqueue(^{
-            fbuf = [[GLFramebuffer alloc] initWithSize:frame.size forRender:YES];
+            fbuf = [[GLFramebuffer alloc] initWithSize:frame.size forRender:NO];
             [fbuf useFramebuffer];
-            if( frame.size.width > frame.size.height )
-            {
-                painter.inputRotation = GLInputRotationCounterClockWise90;
-            }
-            else
-            {
-                painter.inputRotation = GLInputRotationNone;
-            }
+//            painter.inputRotation = GLInputRotationFlipHorizontal;
+//            if( frame.size.width > frame.size.height )
+//            {
+//                painter.inputRotation = GLInputRotationCounterClockWise90;
+//            }
+//            else
+//            {
+//                painter.inputRotation = GLInputRotationNone;
+//            }
             glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER, _colorRenderBuffer);
             [[GLContext sharedGLContext].context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
@@ -80,6 +81,7 @@
     _eaglLayer.opaque = YES;
 }
 
+#pragma mark - api
 - (void)setFrameBuffer:(GLFramebuffer*)fb
 {
     dispatch_async_on_glcontextqueue(^{
@@ -87,14 +89,23 @@
         {
             painter = [[GLPainter alloc] initWithVertexShader:defVertexShader fragmentShader:defFragmentShader];
             painter.bIsForPresent = YES;
-            painter.inputRotation = (self.frame.size.width>self.frame.size.height?GLInputRotationCounterClockWise90:GLInputRotationNone);
+//            painter.inputRotation = GLInputRotationFlipHorizontal;// (self.frame.size.width>self.frame.size.height?GLInputRotationCounterClockWise90:GLInputRotationNone);
         }
         if( !fbuf )
         {
-            fbuf = [[GLFramebuffer alloc] initWithSize:self.frame.size forRender:YES];
+            fbuf = [[GLFramebuffer alloc] initWithSize:self.frame.size forRender:NO];
             glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
             glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_RENDERBUFFER, _colorRenderBuffer);
             [[GLContext sharedGLContext].context renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
+        }
+        float rationorigin = fb.size.height/fb.size.width,ratiodisplay = fbuf.size.height/fbuf.size.width;
+        if( rationorigin > ratiodisplay )
+        {
+            painter.scaleSize = CGSizeMake(fb.size.width/fb.size.height/(fbuf.size.width/fbuf.size.height), 1);
+        }
+        else
+        {
+            painter.scaleSize = CGSizeMake(1, rationorigin/ratiodisplay);
         }
         painter.inputTexture = fb.texture;
         [fbuf useFramebuffer];

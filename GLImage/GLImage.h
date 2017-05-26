@@ -19,4 +19,5 @@
 #import "GLProgram.h"
 #import "GLPainter.h"
 #import "GLStillImage.h"
-
+#import "coretext/CtFrameParser.h"
+#import "shaderString.h"

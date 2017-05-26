@@ -13,6 +13,9 @@
 
 extern const NSString* defVertexShader;
 extern const NSString* defFragmentShader;
+
+extern const NSString* vrVertexShader;
+
 extern const NSString* glYUVVideoRangeToRGBFragmentShaderString;
 extern const NSString* glYUVFullRangeToRGBFragmentShaderString;
 

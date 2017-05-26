@@ -10,11 +10,6 @@
 #import "shaderString.h"
 
 @interface GLPainter()
-{
-    GLuint positionSlot;
-    GLuint textureCoordIn;
-    GLuint textureSampleUniform;
-}
 
 @end
 
@@ -31,10 +26,8 @@
         
         NSAssert(linkret, @"glprogram link fail");
         positionSlot = [_program getAttributeLocation:@"position"];
-//        colorSlot = [_program getAttributeLocation:@"SourceColor"];
         textureCoordIn = [_program getAttributeLocation:@"textureCoordinate"];
         glEnableVertexAttribArray(positionSlot);
-//        glEnableVertexAttribArray(colorSlot);
         glEnableVertexAttribArray(textureCoordIn);
         
         textureSampleUniform = [_program getUniformLocation:@"inputImageTexture"];
@@ -42,12 +35,11 @@
     return self;
 }
 
-//GLfloat co[] = {0,0,0,1,1,0,1,1};
 - (void)paint
 {
     [_program use];
     
-    glClearColor(0, 104.0/255.0, 55.0/255.0, 1.0);
+    glClearColor(0, 0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
     glActiveTexture(GL_TEXTURE0);
@@ -55,12 +47,24 @@
     glUniform1i(textureSampleUniform, 0);
     
     GLfloat position[] = {-1.0,-1.0,0,1.0,-1.0,0,-1.0,1.0,0,1.0,1.0,0};
+    if( self.scaleSize.width*self.scaleSize.height )
+    {
+        if( self.scaleSize.width < 1 )
+        {
+            position[0] = -self.scaleSize.width;
+            position[3] = self.scaleSize.width;
+            position[6] = -self.scaleSize.width;
+            position[9] = self.scaleSize.width;
+        }
+        if( self.scaleSize.height < 1 )
+        {
+            position[1] = -self.scaleSize.height;
+            position[4] = -self.scaleSize.height;
+            position[7] = self.scaleSize.height;
+            position[10] = self.scaleSize.height;
+        }
+    }
     glVertexAttribPointer(positionSlot, 3, GL_FLOAT, GL_FALSE,0, position);
-//    GLfloat color[] = {1,1,0,1,0,1,0,1,0,0,1,1,0,0,0,1};
-//    glVertexAttribPointer(colorSlot, 4, GL_FLOAT, GL_FALSE,0,color);
-//    GLfloat coord1[] = {0,0,1,0,0,1,1,1};
-//    GLfloat coord2[] = {0,1,1,1,0,0,1,0};
-//    GLfloat* coo = coord2;
     
     glVertexAttribPointer(textureCoordIn, 2, GL_FLOAT, GL_FALSE, 0, [self inputTextureCoordinatesForInputRotation:self.inputRotation]);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

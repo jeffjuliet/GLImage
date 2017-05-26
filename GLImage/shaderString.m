@@ -47,6 +47,20 @@ const NSString* defFragmentShader = SHADER(
     }
 );
 
+const NSString* vrVertexShader = SHADER
+(
+  precision highp float;
+  attribute vec4 position;
+  attribute vec2 textureCoordinate;
+  varying vec2 inputTextureCoordinate;
+ uniform mat4 mvpMatrix;
+  void main()
+  {
+      gl_Position = mvpMatrix*position;
+      inputTextureCoordinate = textureCoordinate;
+  }
+);
+
 const NSString* glYUVVideoRangeToRGBFragmentShaderString = SHADER
 (
  precision mediump float;
@@ -83,12 +97,11 @@ const NSString* glBlendShaderFragmentString = SHADER
 (
  precision mediump float;
  varying vec2 inputTextureCoordinate;
- uniform sampler2D inputTexture1;
- uniform sampler2D inputTexture2;
+ uniform sampler2D inputTexture;
  void main()
  {
-     vec4 color = texture2D(inputTexture2,inputTextureCoordinate);
-     if( color.a > 0.0 )
+     vec4 color = texture2D(inputTexture,inputTextureCoordinate);
+     if( color.a > 0.01 )
      {
          gl_FragColor.rgba = vec4(clamp(color.r/color.a,0.0,1.0),clamp(color.g/color.a,0.0,1.0),clamp(color.b/color.a,0.0,1.0),color.a);
      }

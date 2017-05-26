@@ -12,6 +12,6 @@
 
 @interface GLBlendPainter : GLPainter
 
-@property (nonatomic,assign) GLuint inputTexture2;
+@property (nonatomic,assign) CGRect blendArea;
 
 @end
