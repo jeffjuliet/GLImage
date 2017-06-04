@@ -82,7 +82,7 @@
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     
-            GLubyte* textureData = (GLubyte*)calloc(1,width*height*4*sizeof(GLubyte));
+            GLubyte* textureData = (GLubyte*)malloc(width*height*4*sizeof(GLubyte));
     
             CGColorSpaceRef colorref = CGColorSpaceCreateDeviceRGB();
             CGContextRef context = CGBitmapContextCreate(textureData, width, height, 8, width*4, colorref, kCGImageAlphaPremultipliedLast);
@@ -113,4 +113,11 @@
     return self;
 }
 
+- (void)dealloc
+{
+    if( _texture )
+    {
+        glDeleteTextures(1, &_texture);
+    }
+}
 @end
