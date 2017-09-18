@@ -58,7 +58,7 @@
                 
                 [self.assetReader addOutput:self.audioTrackOutput];
                 self.audioTrackOutput.alwaysCopiesSampleData = NO;
-                AVAssetTrack* track = self.audioTrackOutput.track;
+                //AVAssetTrack* track = self.audioTrackOutput.track;
                 [self.assetReader startReading];
                 if(completion)
                 {

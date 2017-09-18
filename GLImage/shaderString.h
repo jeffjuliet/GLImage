@@ -27,3 +27,5 @@ extern const NSString* glBlendShaderFragmentString;
 extern const NSString* glCustomBeautyShaderFragmentString;
 
 extern const NSString* glDefBeautyFilter;
+
+extern const NSString* glBlackWhiteFilter;

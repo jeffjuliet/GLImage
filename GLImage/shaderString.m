@@ -124,7 +124,7 @@ const NSString* glCustomBeautyShaderFragmentString = SHADER
  }
  );
 
-const NSString* glDefbea = SHADER(
+const NSString* glDefBeautyFilter = SHADER(
   precision highp float;
   varying lowp vec4 DestinationColor;
   uniform sampler2D inputImageTexture;
@@ -244,4 +244,16 @@ void main(){
   gl_FragColor.rgb = texture2D(inputImageTexture, textureCoordinate).rgb;
   gl_FragColor.rgb = texture2D(inputImageTexture, textureCoordinate).rrr;
 }
+);
+
+const NSString* glBlackWhiteFilter = SHADER(
+    precision mediump float;
+    varying vec2 inputTextureCoordinate;
+    uniform sampler2D inputTexture;
+    void main()
+    {
+        vec4 color = texture2D(inputTexture,inputTextureCoordinate);
+        float luminance = dot(color.rgb,vec3(0.299, 0.587, 0.114));
+        gl_FragColor = vec4(luminance,luminance,luminance,1.0);
+    }
 );

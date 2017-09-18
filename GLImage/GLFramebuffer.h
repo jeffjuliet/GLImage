@@ -17,5 +17,6 @@
 - (instancetype)initWithSize:(CGSize)size;
 - (instancetype)initWithSize:(CGSize)size forRender:(BOOL)isForRender;
 - (void)useFramebuffer;
+- (void)discardFrameBuffer;
 
 @end

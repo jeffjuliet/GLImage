@@ -92,7 +92,7 @@ void dispatch_async_on_glcontextqueue(dispatch_block_t block)
 {
     if( !glContext )
     {
-        glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3 sharegroup:nil];
+        glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2 sharegroup:nil];
     }
 }
 
@@ -105,7 +105,7 @@ void dispatch_async_on_glcontextqueue(dispatch_block_t block)
 {
     if( !coreVideoTextureCache )
     {
-        CVReturn ret = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, [self context], NULL, &coreVideoTextureCache);
+        __unused CVReturn ret = CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, [self context], NULL, &coreVideoTextureCache);
         NSAssert(ret == kCVReturnSuccess, @"core video texture cache create fail");
     }
     return coreVideoTextureCache;

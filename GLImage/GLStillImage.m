@@ -81,21 +81,45 @@
             // This is necessary for non-power-of-two textures
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            
+            GLubyte* textureData = nil;
+            CFDataRef dataFromImageDataProvider = NULL;
+            BOOL redrawed = NO;
+            if( bytesperrow != width*4 || bytesperpixel != 32 || bitspercomponent != 8 )
+            {
+                redrawed = YES;
+                textureData = (GLubyte*)malloc(width*height*4*sizeof(GLubyte));
+                CGColorSpaceRef colorref = CGColorSpaceCreateDeviceRGB();
+                CGContextRef context = CGBitmapContextCreate(textureData, width, height, 8, width*4, colorref, ainfo|kCGBitmapByteOrder32Little);
+                CGContextDrawImage(context, CGRectMake(0, 0, width, height), imgRef);
+                CGContextRelease(context);
+                
+                CGColorSpaceRelease(colorref);
+            }
+            else
+            {
+                CFDataRef dataFromImageDataProvider = CGDataProviderCopyData(CGImageGetDataProvider(imgRef));
+                textureData = (GLubyte *)CFDataGetBytePtr(dataFromImageDataProvider);
+            }
     
-            GLubyte* textureData = (GLubyte*)malloc(width*height*4*sizeof(GLubyte));
-    
-            CGColorSpaceRef colorref = CGColorSpaceCreateDeviceRGB();
-            CGContextRef context = CGBitmapContextCreate(textureData, width, height, 8, width*4, colorref, kCGImageAlphaPremultipliedLast);
-            CGContextDrawImage(context, CGRectMake(0, 0, width, height), imgRef);
-            CGContextRelease(context);
-    
-            CGColorSpaceRelease(colorref);
-    
-            NSLog(@"textureupload begin:%@",@([[NSDate date] timeIntervalSince1970]*1000));
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)width, (int)height, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
-            NSLog(@"textureupload after:%@",@([[NSDate date] timeIntervalSince1970]*1000));
-            free(textureData);
-            glBindTexture(GL_TEXTURE_2D, 0);
+            dispatch_async_on_glcontextqueue(^{
+                glBindTexture(GL_TEXTURE_2D, _texture);
+                NSLog(@"textureupload begin:%@",@([[NSDate date] timeIntervalSince1970]*1000));
+//                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)width, (int)height, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
+                NSLog(@"textureupload after:%@",@([[NSDate date] timeIntervalSince1970]*1000));
+                if ( redrawed ) {
+                    free(textureData);
+                }
+                else
+                {
+                    if( dataFromImageDataProvider )
+                    {
+                        CFRelease(dataFromImageDataProvider);
+                    }
+                }
+                glBindTexture(GL_TEXTURE_2D, 0);
+            });
         }
         else
         {

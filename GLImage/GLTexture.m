@@ -58,12 +58,12 @@
         [[GLContext sharedGLContext] useGLContext];
         CVReturn ret = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, [[GLContext sharedGLContext] coreVideoTextureCache], pixelBuffer, NULL, GL_TEXTURE_2D, GL_LUMINANCE, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer), GL_LUMINANCE, GL_UNSIGNED_BYTE, 0, &luminanceTextureRef);
         glBindTexture(CVOpenGLESTextureGetTarget(luminanceTextureRef), CVOpenGLESTextureGetName(luminanceTextureRef));
-        //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         ret = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, [[GLContext sharedGLContext] coreVideoTextureCache], pixelBuffer, NULL, GL_TEXTURE_2D, GL_LUMINANCE_ALPHA, CVPixelBufferGetWidth(pixelBuffer)/2, CVPixelBufferGetHeight(pixelBuffer)/2, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, 1, &chrominanceTextureRef);
         glBindTexture(CVOpenGLESTextureGetTarget(chrominanceTextureRef), CVOpenGLESTextureGetName(chrominanceTextureRef));
-        //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     }
     return self;
 }
@@ -74,7 +74,7 @@
     if( self )
     {
         [[GLContext sharedGLContext] useGLContext];
-        CVReturn ret = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, [GLContext sharedGLContext].coreVideoTextureCache, pixelBuffer, NULL, GL_TEXTURE_2D, GL_RGBA, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer), GL_BGRA, GL_UNSIGNED_BYTE, 0, &textureRef);
+        __unused CVReturn ret = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, [GLContext sharedGLContext].coreVideoTextureCache, pixelBuffer, NULL, GL_TEXTURE_2D, GL_RGBA, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer), GL_BGRA, GL_UNSIGNED_BYTE, 0, &textureRef);
         glBindTexture(CVOpenGLESTextureGetTarget(textureRef), CVOpenGLESTextureGetName(textureRef));
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -108,9 +108,9 @@
 - (void)dealloc
 {
 //    [[GLContext sharedGLContext] useGLContext];
-    GLuint texturebuffer = CVOpenGLESTextureGetName(textureRef);
+    __unused GLuint texturebuffer = CVOpenGLESTextureGetName(textureRef);
 //    glDeleteTextures(1, &texturebuffer);
-    GLuint u = glGetError();
+    __unused GLuint u = glGetError();
     if( textureRef )
     {
         CFRelease(textureRef);

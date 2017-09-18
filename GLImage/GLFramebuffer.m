@@ -69,6 +69,13 @@
     }
 }
 
+- (void)discardFrameBuffer
+{
+    GLenum discards[] = {GL_COLOR_ATTACHMENT0};
+    glBindFramebuffer(GL_FRAMEBUFFER, uFramebuffer);
+    glDiscardFramebufferEXT(GL_FRAMEBUFFER, 1, discards);
+}
+
 - (CVPixelBufferRef)pixelBuffer
 {
     return imgBuffer;
@@ -126,7 +133,7 @@
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glFramebufferTexture2D(GL_FRAMEBUFFER,GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D,CVOpenGLESTextureGetName(cvTextureRef),0);
     
-    GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    __unused GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
     NSAssert(status == GL_FRAMEBUFFER_COMPLETE, @"Incomplete filter FBO: %d", status);
     glBindTexture(GL_TEXTURE_2D, 0);
 }

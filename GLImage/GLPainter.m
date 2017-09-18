@@ -11,6 +11,9 @@
 
 @interface GLPainter()
 
+@property (nonatomic,assign) GLuint vbo;
+@property (nonatomic,assign) GLuint indexvbo;
+
 @end
 
 @implementation GLPainter
@@ -22,7 +25,7 @@
     if( self )
     {
         _program = [[GLProgram alloc] initWithVertexString:vShader fragmentString:fShader];
-        BOOL linkret = [_program link];
+        __unused BOOL linkret = [_program link];
         
         NSAssert(linkret, @"glprogram link fail");
         positionSlot = [_program getAttributeLocation:@"position"];
@@ -39,36 +42,91 @@
 {
     [_program use];
     
-    glClearColor(0, 0, 0, 1.0);
+//    glClearColor(0, 0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, _inputTexture);
     glUniform1i(textureSampleUniform, 0);
     
-    GLfloat position[] = {-1.0,-1.0,0,1.0,-1.0,0,-1.0,1.0,0,1.0,1.0,0};
-    if( self.scaleSize.width*self.scaleSize.height )
+    GLfloat vertex[] = {-1.0,-1.0,0,0.0,0.0,1.0,-1.0,0,0.0,0.0,-1.0,1.0,0,0.0,0.0,1.0,1.0,0,0.0,0.0};
+    GLushort idx[] = {0,1,2,1,2,3};
+    GLfloat* tex = [self inputTextureCoordinatesForInputRotation:self.inputRotation];
+    for( int i = 0;i<4 ;++i )
     {
-        if( self.scaleSize.width < 1 )
-        {
-            position[0] = -self.scaleSize.width;
-            position[3] = self.scaleSize.width;
-            position[6] = -self.scaleSize.width;
-            position[9] = self.scaleSize.width;
-        }
-        if( self.scaleSize.height < 1 )
-        {
-            position[1] = -self.scaleSize.height;
-            position[4] = -self.scaleSize.height;
-            position[7] = self.scaleSize.height;
-            position[10] = self.scaleSize.height;
-        }
+        vertex[i*5+3] = tex[i*2];
+        vertex[i*5+4] = tex[i*2+1];
     }
-    glVertexAttribPointer(positionSlot, 3, GL_FLOAT, GL_FALSE,0, position);
+    if( !self.vbo )
+    {
+        glGenBuffers(1, &_vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, self.vbo);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*20, vertex, GL_STATIC_DRAW);
+        glGenBuffers(1, &_indexvbo);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, self.indexvbo);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*6, idx, GL_STATIC_DRAW);
+    }
+//    if( self.scaleSize.width*self.scaleSize.height )
+//    {
+//        if( self.scaleSize.width < 1 )
+//        {
+//            position[0] = -self.scaleSize.width;
+//            position[3] = self.scaleSize.width;
+//            position[6] = -self.scaleSize.width;
+//            position[9] = self.scaleSize.width;
+//        }
+//        if( self.scaleSize.height < 1 )
+//        {
+//            position[1] = -self.scaleSize.height;
+//            position[4] = -self.scaleSize.height;
+//            position[7] = self.scaleSize.height;
+//            position[10] = self.scaleSize.height;
+//        }
+//    }
+    glBindBuffer(GL_ARRAY_BUFFER, self.vbo);
+    glVertexAttribPointer(positionSlot, 3, GL_FLOAT, GL_FALSE,sizeof(GLfloat)*5, 0);
     
-    glVertexAttribPointer(textureCoordIn, 2, GL_FLOAT, GL_FALSE, 0, [self inputTextureCoordinatesForInputRotation:self.inputRotation]);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    glVertexAttribPointer(textureCoordIn, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat)*5, sizeof(GLfloat)*3);
+    
+//    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, self.indexvbo);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
+//- (void)paint
+//{
+//    [_program use];
+//    
+//    //    glClearColor(0, 0, 0, 1.0);
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    
+//    glActiveTexture(GL_TEXTURE0);
+//    glBindTexture(GL_TEXTURE_2D, _inputTexture);
+//    glUniform1i(textureSampleUniform, 0);
+//    
+//    GLfloat position[] = {-1.0,-1.0,0,1.0,-1.0,0,-1.0,1.0,0,1.0,1.0,0};
+//    if( self.scaleSize.width*self.scaleSize.height )
+//    {
+//        if( self.scaleSize.width < 1 )
+//        {
+//            position[0] = -self.scaleSize.width;
+//            position[3] = self.scaleSize.width;
+//            position[6] = -self.scaleSize.width;
+//            position[9] = self.scaleSize.width;
+//        }
+//        if( self.scaleSize.height < 1 )
+//        {
+//            position[1] = -self.scaleSize.height;
+//            position[4] = -self.scaleSize.height;
+//            position[7] = self.scaleSize.height;
+//            position[10] = self.scaleSize.height;
+//        }
+//    }
+//    glVertexAttribPointer(positionSlot, 3, GL_FLOAT, GL_FALSE,0, position);
+//    
+//    glVertexAttribPointer(textureCoordIn, 2, GL_FLOAT, GL_FALSE, 0, [self inputTextureCoordinatesForInputRotation:self.inputRotation]);
+//    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+//}
 
 - (GLfloat*)inputTextureCoordinatesForInputRotation:(GLPainterInputRotation)rotation
 {
